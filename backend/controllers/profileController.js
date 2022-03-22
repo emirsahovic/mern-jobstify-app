@@ -177,6 +177,18 @@ const addEducation = asyncHandler(async (req, res, next) => {
     res.status(200).json(profile);
 })
 
+// @route DELETE api/profile/education/:eduId
+// @desc Delete profile education
+// @access Private
+const deleteEducation = asyncHandler(async (req, res, next) => {
+    const profile = await Profile.findOne({ user: req.user.id });
+    const removeIndex = profile.education.map(item => item.id).indexOf(req.params.eduId);
+    profile.education.splice(removeIndex, 1);
+    await profile.save();
+
+    res.status(200).json(profile);
+})
+
 export {
     getCurrentProfile,
     createProfile,
@@ -185,5 +197,6 @@ export {
     deleteProfile,
     addExperience,
     deleteExperience,
-    addEducation
+    addEducation,
+    deleteEducation
 }

@@ -7,7 +7,8 @@ import {
     getAllProfiles,
     getCurrentProfile,
     getProfileByUser,
-    addEducation
+    addEducation,
+    deleteEducation
 } from "../controllers/profileController.js";
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -21,5 +22,6 @@ router.delete('/', protect, deleteProfile);
 router.put('/experience', protect, addExperience);
 router.delete('/experience/:expId', protect, deleteExperience);
 router.put('/education', protect, addEducation);
+router.delete('/education/:eduId', protect, deleteEducation);
 
 export default router;
