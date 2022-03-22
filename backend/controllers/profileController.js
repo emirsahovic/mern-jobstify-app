@@ -138,7 +138,43 @@ const deleteExperience = asyncHandler(async (req, res, next) => {
     profile.experience.splice(removeIndex, 1);
     await profile.save();
 
-    res.json(profile);
+    res.status(200).json(profile);
+})
+
+// @route PUT api/profile/education
+// @desc Add profile education
+// @access Private
+const addEducation = asyncHandler(async (req, res, next) => {
+    const {
+        school,
+        degree,
+        fieldofstudy,
+        from,
+        to,
+        current,
+        description
+    } = req.body;
+
+    if (!school || !degree || !fieldofstudy || !from) {
+        res.status(400);
+        throw new Error('Please provide school, degree, fieldofstudy and from date');
+    }
+
+    const edu = {
+        school,
+        degree,
+        fieldofstudy,
+        from,
+        to,
+        current,
+        description
+    }
+
+    const profile = await Profile.findOne({ user: req.user.id });
+    profile.education.unshift(edu);
+    await profile.save();
+
+    res.status(200).json(profile);
 })
 
 export {
@@ -148,5 +184,6 @@ export {
     getProfileByUser,
     deleteProfile,
     addExperience,
-    deleteExperience
+    deleteExperience,
+    addEducation
 }
