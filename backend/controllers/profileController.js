@@ -70,4 +70,27 @@ const getAllProfiles = asyncHandler(async (req, res, next) => {
     res.status(200).json(profiles);
 })
 
-export { getCurrentProfile, createProfile, getAllProfiles }
+// @desc    Get profile by user id
+// @method  GET /api/profile/user/:userId
+// @access  Public
+const getProfileByUser = asyncHandler(async (req, res, next) => {
+    const profile = await Profile.findOne({ user: req.params.userId }).populate('user', ['name', 'email']);
+
+    if (!profile) {
+        res.status(404);
+        throw new Error('There is no profile for this user');
+    }
+
+    res.status(200).json(profile);
+})
+
+// @route DELETE api/profile
+// @desc Delete profile and user
+// @access Private
+const deleteProfile = asyncHandler(async (req, res, next) => {
+    await Profile.findOneAndDelete({ user: req.user.id });
+    await User.findOneAndDelete({ _id: req.user.id });
+    res.status(200).json({ msg: 'User deleted' });
+})
+
+export { getCurrentProfile, createProfile, getAllProfiles, getProfileByUser, deleteProfile }
