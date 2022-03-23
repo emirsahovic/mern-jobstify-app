@@ -1,25 +1,41 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginUser } from '../actions/authActions';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
+    const { isError, isSuccess, message } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email('Invalid email address format').required('Required')
+        }),
+        onSubmit: (values, { resetForm }) => {
+            const { email, password } = values;
+            const userData = {
+                email,
+                password
+            }
+            dispatch(loginUser(userData));
+            if (isSuccess) {
+                resetForm({ values: '' });
+            }
+        }
     })
 
-    const { email, password } = formData;
-
-    const onChange = (e) => {
-        setFormData(prevState => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
-    }
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-    }
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/profile');
+        }
+    }, [isSuccess, navigate])
 
     return (
         <>
@@ -36,15 +52,16 @@ const Login = () => {
                         </svg>
                     </div>
                     <h3 className="text-2xl font-bold text-center">Sign In</h3>
-                    <form onSubmit={onSubmit}>
+                    <form onSubmit={formik.handleSubmit}>
                         <div className="mt-4">
                             <div className="mt-4">
                                 <label className="block" htmlFor="email">Email</label>
                                 <input type="email" placeholder="Email"
                                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-600"
                                     name="email"
-                                    value={email}
-                                    onChange={onChange}
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     required
                                 />
                             </div>
@@ -53,8 +70,9 @@ const Login = () => {
                                 <input type="password" placeholder="Password"
                                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-600"
                                     name="password"
-                                    value={password}
-                                    onChange={onChange}
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     required
                                 />
                             </div>
@@ -63,6 +81,7 @@ const Login = () => {
                                     Sign In
                                 </button>
                             </div>
+                            {isError && <p id='hideMe' className='text-white bg-red-500 py-2 text-center font-bold mt-3'>{message}</p>}
                             <div className="mt-6 text-grey-dark">
                                 <span className="mr-2">Don't have an account?</span>
                                 <Link to='/register' className="text-green-600 hover:underline font-bold">
