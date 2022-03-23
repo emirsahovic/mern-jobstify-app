@@ -44,7 +44,7 @@ const Register = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            navigate('/profiles');
+            navigate('/my-profile');
         }
 
     }, [isSuccess, navigate])
