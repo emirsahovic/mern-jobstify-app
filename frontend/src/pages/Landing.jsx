@@ -13,8 +13,8 @@ const Landing = () => {
                 <Link to='/profiles' className="px-6 py-2 bg-green-800 text-gray-300 font-bold rounded text-lg hover:opacity-80 transition duration-150 active:-translate-y-2">
                     View Candidates
                 </Link>
-                <Link to='/login' className="px-6 py-2 xs:mt-4 md:mt-0 bg-green-800 text-gray-300 font-bold rounded text-lg hover:opacity-80 transition duration-150 active:-translate-y-2">
-                    Log in to become a candidate
+                <Link to='/register' className="px-6 py-2 xs:mt-4 md:mt-0 bg-green-800 text-gray-300 font-bold rounded text-lg hover:opacity-80 transition duration-150 active:-translate-y-2">
+                    Sign up to become a candidate
                 </Link>
             </div>
         </div>
