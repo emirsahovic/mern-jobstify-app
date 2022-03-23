@@ -11,7 +11,7 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const { isError, isSuccess, message } = useSelector(state => state.auth);
+    const { isErrorRegister, isSuccess, message } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const Register = () => {
             name: Yup.string().min(3, 'Name must contain at least 3 characters').required('Required'),
             email: Yup.string().email('Invalid email address format').required('Required'),
             password: Yup.string().min(6, 'Password must contain at least 6 characters').required('Required'),
-            confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
+            confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Required')
         }),
         onSubmit: (values, { resetForm }) => {
             const { name, email, password } = values;
@@ -46,6 +46,7 @@ const Register = () => {
         if (isSuccess) {
             navigate('/profiles');
         }
+
     }, [isSuccess, navigate])
 
     return (
@@ -122,7 +123,7 @@ const Register = () => {
                                     Create Account
                                 </button>
                             </div>
-                            {isError && <p id='hideMe' className='text-white bg-red-500 py-2 text-center font-bold mt-3'>{message}</p>}
+                            {isErrorRegister && <p id='hideMe' className='text-white bg-red-500 py-2 text-center font-bold mt-3'>{message}</p>}
                             <div className="mt-6 text-grey-dark">
                                 <span className="mr-2">Already have an account?</span>
                                 <Link to='/login' className="text-green-600 hover:underline font-bold">

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser } from '../actions/authActions';
+import { loginUser, reset } from '../actions/authActions';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const Login = () => {
-    const { isError, isSuccess, message } = useSelector(state => state.auth);
+    const { isErrorLogin, isSuccess, message } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -16,7 +16,8 @@ const Login = () => {
             password: ''
         },
         validationSchema: Yup.object({
-            email: Yup.string().email('Invalid email address format').required('Required')
+            email: Yup.string().email('Invalid email address format').required('Required'),
+            password: Yup.string().required('Required')
         }),
         onSubmit: (values, { resetForm }) => {
             const { email, password } = values;
@@ -62,8 +63,8 @@ const Login = () => {
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    required
                                 />
+                                {formik.touched.email && formik.errors.email && <p className='mt-1 text-red-600 font-bold'>{formik.errors.email}</p>}
                             </div>
                             <div className="mt-4">
                                 <label className="block">Password</label>
@@ -73,15 +74,15 @@ const Login = () => {
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    required
                                 />
+                                {formik.touched.password && formik.errors.password && <p className='mt-1 text-red-600 font-bold'>{formik.errors.password}</p>}
                             </div>
                             <div className="flex">
                                 <button type='submit' className="w-full px-6 py-2 mt-4 text-white bg-green-500 rounded-lg hover:bg-green-700 transition duration-200">
                                     Sign In
                                 </button>
                             </div>
-                            {isError && <p id='hideMe' className='text-white bg-red-500 py-2 text-center font-bold mt-3'>{message}</p>}
+                            {isErrorLogin && <p id='hideMe' className='text-white bg-red-500 py-2 text-center font-bold mt-3'>{message}</p>}
                             <div className="mt-6 text-grey-dark">
                                 <span className="mr-2">Don't have an account?</span>
                                 <Link to='/register' className="text-green-600 hover:underline font-bold">
