@@ -11,7 +11,7 @@ const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth);
+    const { isError, isSuccess, message } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ const Register = () => {
         if (isSuccess) {
             navigate('/profiles');
         }
-    }, [isSuccess, isError, message, navigate])
+    }, [isSuccess, navigate])
 
     return (
         <>
