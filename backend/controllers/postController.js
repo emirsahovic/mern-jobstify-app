@@ -89,4 +89,22 @@ const updatePost = asyncHandler(async (req, res, next) => {
     res.status(200).json(updatedPost);
 })
 
-export { getAllPosts, createPost, getPostById, deletePost, updatePost }
+// @route PUT api/posts/like/:postId
+// @desc Like a post
+// @access Private
+const likePost = asyncHandler(async (req, res, next) => {
+    const post = await Post.findById(req.params.postId);
+
+    if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+        res.status(400);
+        throw new Error('Post already liked');
+    }
+
+    post.likes.unshift({ user: req.user.id });
+
+    await post.save();
+
+    res.json(post.likes);
+})
+
+export { getAllPosts, createPost, getPostById, deletePost, updatePost, likePost }
