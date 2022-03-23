@@ -1,35 +1,57 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { registerUser } from '../actions/authActions';
 import { GrFormView } from 'react-icons/gr';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Register = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        password2: ''
-    })
-
-    const { name, email, password, password2 } = formData;
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const onChange = (e) => {
-        setFormData(prevState => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
-    }
+    const { user, isLoading, isError, isSuccess, message } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-    }
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().min(3, 'Name must contain at least 3 characters').required('Required'),
+            email: Yup.string().email('Invalid email address format').required('Required'),
+            password: Yup.string().min(6, 'Password must contain at least 6 characters').required('Required'),
+            confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
+        }),
+        onSubmit: (values, { resetForm }) => {
+            const { name, email, password } = values;
+            const userData = {
+                name,
+                email,
+                password
+            }
+            dispatch(registerUser(userData));
+            if (isSuccess) {
+                resetForm({ values: '' });
+            }
+        }
+    })
+
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/profiles');
+        }
+    }, [isSuccess, isError, message, navigate])
 
     return (
         <>
             <div className="flex justify-center min-h-screen login-image">
-                <div className="px-8 py-6 mx-4 text-left bg-gray-100 shadow-lg rounded md:w-1/3 lg:w-1/3 sm:w-1/3 h-3/4 mt-28">
+                <div className="px-8 py-6 mx-4 text-left bg-gray-100 shadow-lg rounded md:w-1/3 lg:w-1/3 sm:w-1/3 h-3/4 mt-16">
                     <div className="flex justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-20 h-20 text-green-600" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -41,27 +63,29 @@ const Register = () => {
                         </svg>
                     </div>
                     <h3 className="text-2xl font-bold text-center">Sign Up</h3>
-                    <form onSubmit={onSubmit}>
+                    <form onSubmit={formik.handleSubmit}>
                         <div className="mt-4">
                             <div>
                                 <label className="block" htmlFor="Name">Name</label>
                                 <input type="text" placeholder="Name"
                                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                                     name="name"
-                                    value={name}
-                                    onChange={onChange}
-                                    required
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                 />
+                                {formik.touched.name && formik.errors.name && <p className='mt-1 text-red-600 font-bold'>{formik.errors.name}</p>}
                             </div>
                             <div className="mt-4">
                                 <label className="block" htmlFor="email">Email</label>
                                 <input type="email" placeholder="Email"
                                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                                     name="email"
-                                    value={email}
-                                    onChange={onChange}
-                                    required
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                 />
+                                {formik.touched.email && formik.errors.email && <p className='mt-1 text-red-600 font-bold'>{formik.errors.email}</p>}
                             </div>
                             <div className="mt-4">
                                 <label className="block">Password</label>
@@ -70,10 +94,11 @@ const Register = () => {
                                         placeholder="Password"
                                         className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                                         name="password"
-                                        value={password}
-                                        onChange={onChange}
-                                        required
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                     />
+                                    {formik.touched.password && formik.errors.password && <p className='mt-1 text-red-600 font-bold'>{formik.errors.password}</p>}
                                     <GrFormView className='absolute text-3xl bottom-1 right-3 cursor-pointer' onClick={() => setShowPassword(prevState => !prevState)} />
                                 </div>
                             </div>
@@ -83,19 +108,21 @@ const Register = () => {
                                     <input type={showConfirmPassword ? 'text' : 'password'}
                                         placeholder="Password"
                                         className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
-                                        name="password2"
-                                        value={password2}
-                                        onChange={onChange}
-                                        required
+                                        name="confirmPassword"
+                                        value={formik.values.confirmPassword}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                     />
+                                    {formik.touched.confirmPassword && formik.errors.confirmPassword && <p className='mt-1 text-red-600 font-bold'>{formik.errors.confirmPassword}</p>}
                                     <GrFormView className='absolute text-3xl bottom-1 right-3 cursor-pointer' onClick={() => setShowConfirmPassword(prevState => !prevState)} />
                                 </div>
                             </div>
                             <div className="flex">
-                                <button type='submit' className="w-full px-6 py-2 mt-4 text-white bg-green-500 rounded-lg hover:bg-teal-700 transition duration-200">
+                                <button type='submit' className="w-full px-6 py-2 mt-4 text-white bg-green-500 rounded-lg hover:bg-green-700 transition duration-200">
                                     Create Account
                                 </button>
                             </div>
+                            {isError && <p id='hideMe' className='text-white bg-red-500 py-2 text-center font-bold mt-3'>{message}</p>}
                             <div className="mt-6 text-grey-dark">
                                 <span className="mr-2">Already have an account?</span>
                                 <Link to='/login' className="text-green-600 hover:underline font-bold">
