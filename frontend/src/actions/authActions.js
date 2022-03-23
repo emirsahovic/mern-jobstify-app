@@ -1,4 +1,14 @@
-import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAIL } from "../constants/authConstants";
+import {
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
+    REGISTER_FAIL,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAIL
+} from "../constants/authConstants";
 import axios from 'axios';
 
 export const registerUser = (userData) => async (dispatch) => {
@@ -43,4 +53,8 @@ export const loginUser = (userData) => async (dispatch) => {
             payload: (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         })
     }
+}
+
+export const logout = () => async (dispatch) => {
+    dispatch({ type: LOGOUT_SUCCESS });
 }
