@@ -33,4 +33,18 @@ const createPost = asyncHandler(async (req, res, next) => {
     res.status(201).json(post);
 })
 
-export { getAllPosts, createPost }
+// @route GET api/posts/:postId
+// @desc Get post by id
+// @access Public
+const getPostById = asyncHandler(async (req, res, next) => {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+        res.status(404);
+        throw new Error('Post not found');
+    }
+
+    res.status(200).json(post);
+})
+
+export { getAllPosts, createPost, getPostById }
