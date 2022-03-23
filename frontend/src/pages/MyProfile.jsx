@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getMyProfile } from "../actions/profileActions";
+import Spinner from "../components/Spinner";
 
 const MyProfile = () => {
     const dispatch = useDispatch();
@@ -11,13 +12,15 @@ const MyProfile = () => {
     }, [dispatch])
 
     if (isLoading) {
-        return <h2>Loading...</h2>
+        return <Spinner />
     }
 
     return (
         <div>
-            {profile.website}
-        </div>
+            {!profile ? <p>Create profile? </p> : (
+                <p>{profile.website}</p>
+            )}
+        </div >
     )
 }
 
