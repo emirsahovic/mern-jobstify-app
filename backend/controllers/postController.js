@@ -137,7 +137,7 @@ const addComment = asyncHandler(async (req, res, next) => {
     const { text } = req.body;
 
     if (!text) {
-        res.status(400)
+        res.status(400);
         throw new Error('Please provide text');
     }
 
@@ -148,10 +148,43 @@ const addComment = asyncHandler(async (req, res, next) => {
     };
 
     post.comments.unshift(comment);
-
     await post.save();
 
     res.json(post.comments);
 })
 
-export { getAllPosts, createPost, getPostById, deletePost, updatePost, likePost, unlikePost, addComment }
+// @route DELETE api/posts/comment/:postId/:commentId
+// @desc Delete comment
+// @access Private
+const deleteComment = asyncHandler(async (req, res, next) => {
+    const post = await Post.findById(req.params.postId);
+    const comment = post.comments.find(comment => comment.id === req.params.commentId);
+
+    if (!comment) {
+        res.status(404);
+        throw new Error('Comment does not exist');
+    }
+
+    if (comment.user.toString() !== req.user.id) {
+        res.status(401);
+        throw new Error('You are not authorized for this action');
+    }
+
+    const removeIndex = post.comments.map(comment => comment.user.toString()).indexOf(req.user.id);
+    post.comments.splice(removeIndex, 1);
+    await post.save();
+
+    res.json(post.comments);
+})
+
+export {
+    getAllPosts,
+    createPost,
+    getPostById,
+    deletePost,
+    updatePost,
+    likePost,
+    unlikePost,
+    addComment,
+    deleteComment
+}
