@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { FaSignInAlt, FaUser, FaBlogger } from 'react-icons/fa';
+import { FaSignInAlt, FaUser } from 'react-icons/fa';
 import logo from '../assets/job-logo.png';
 
 const Header = () => {
     return (
-        <nav className="bg-gray-700 p-1 static">
+        <nav className="bg-gray-700 p-1">
             <div className="container mx-auto px-20 flex items-center justify-between flex-wrap ">
-                <Link to='/dashboard' className='flex items-center hover:opacity-75 transition duration-200'>
+                <Link to='/' className='flex items-center hover:opacity-75 transition duration-200'>
                     <h2 className="text-white font-bold text-xl mr-2">Jobstify</h2>
                     <img src={logo} alt="Logo" className='h-16 w-20 py-1' />
                 </Link>
