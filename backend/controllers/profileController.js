@@ -22,6 +22,7 @@ const getCurrentProfile = asyncHandler(async (req, res, next) => {
 // @access  Private
 const createProfile = asyncHandler(async (req, res, next) => {
     const {
+        position,
         website,
         location,
         bio,
@@ -31,13 +32,14 @@ const createProfile = asyncHandler(async (req, res, next) => {
         linkedin
     } = req.body;
 
-    if (!skills) {
+    if (!position || !skills) {
         res.status(400);
-        throw new Error('Please provide your skills');
+        throw new Error('Please provide your position and skills');
     }
 
     const profileFields = {};
     profileFields.user = req.user.id;
+    if (position) profileFields.position = position;
     if (website) profileFields.website = normalizeUrl(website);
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
