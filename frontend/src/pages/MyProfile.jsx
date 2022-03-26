@@ -24,7 +24,7 @@ const MyProfile = () => {
     return (
         <div>
             {!profile ? <p>Create profile? </p> : (
-                <div className="h-full" style={{ backgroundColor: '#eee' }}>
+                <div className="h-full">
                     <div className='profile-image py-10' style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 0, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0 0)' }}>
                         <div className="flex flex-wrap justify-center items-center space-x-10">
                             <div className="text-3xl font-bold text-center text-white" style={{ letterSpacing: '5px' }}>
