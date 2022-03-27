@@ -1,10 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineArrowDown } from 'react-icons/ai';
+import { useSelector, useDispatch } from 'react-redux';
+import { createProfile } from '../actions/profileActions';
 
 const CreateProfile = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { isSuccess } = useSelector(state => state.profile);
+
     const [formData, setFormData] = useState({
-        company: '',
+        position: '',
         website: '',
         location: '',
         skills: '',
@@ -16,15 +23,31 @@ const CreateProfile = () => {
 
     const [displaySocial, toggleSocial] = useState(false);
 
-    const { position, company, website, location, skills, bio, facebook, linkedin, github } = formData;
-    const navigate = useNavigate();
+    const { position, website, location, skills, bio, facebook, linkedin, github } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = e => {
         e.preventDefault();
 
-        navigate('/my-profile');
+        const profileData = {
+            position,
+            website,
+            location,
+            skills,
+            bio,
+            facebook,
+            linkedin,
+            github,
+        }
+
+        dispatch(createProfile(profileData));
+
+        setTimeout(() => {
+            if (isSuccess) {
+                navigate('/my-profile');
+            }
+        }, 1000)
     }
 
     return (
@@ -35,7 +58,7 @@ const CreateProfile = () => {
                 <small className='text-green-500'>* = required field</small>
                 <form className='flex flex-col space-y-4 mt-2' onSubmit={e => onSubmit(e)}>
                     <div className='flex flex-col'>
-                        <select name="position" value={position} className='py-2 rounded-lg bg-gray-200' onChange={onChange}>
+                        <select name="position" value={position} required className='py-2 rounded-lg bg-gray-200' onChange={onChange}>
                             <option value="0">* Select Your Position</option>
                             <option value="Frontend Developer">Frontend Developer</option>
                             <option value="Backend Developer">Backend Developer</option>
@@ -55,10 +78,6 @@ const CreateProfile = () => {
                         <small className="text-gray-600">Current position in your career</small>
                     </div>
                     <div className='flex flex-col'>
-                        <input type="text" className='border-gray-300 border-2 focus:outline-none rounded-lg w-full p-2.5' placeholder="Company" name="company" value={company} onChange={(e) => onChange(e)} />
-                        <small className="text-gray-600">The current company you work for </small>
-                    </div>
-                    <div className='flex flex-col'>
                         <input type="text" className='border-gray-300 border-2 focus:outline-none rounded-lg w-full p-2.5' placeholder="Website" name="website" value={website} onChange={(e) => onChange(e)} />
                         <small className="text-gray-600">Your personal website</small>
                     </div>
@@ -67,7 +86,7 @@ const CreateProfile = () => {
                         <small className="text-gray-600">City (eg. Sarajevo)</small>
                     </div>
                     <div className='flex flex-col'>
-                        <input type="text" className='border-gray-300 border-2 focus:outline-none rounded-lg w-full p-2.5' placeholder="* Skills" name="skills" value={skills} onChange={(e) => onChange(e)} />
+                        <input type="text" required className='border-gray-300 border-2 focus:outline-none rounded-lg w-full p-2.5' placeholder="* Skills" name="skills" value={skills} onChange={(e) => onChange(e)} />
                         <small className="text-gray-600">A list of your technical skills (eg. Python, Java, C#, JavaScript, React.js)</small>
                     </div>
                     <div className='flex flex-col'>
@@ -92,7 +111,7 @@ const CreateProfile = () => {
                             </div>
 
                             <div className='flex flex-col'>
-                                <input type="text" placeholder="Github URL" className='border-gray-300 border-2 focus:outline-none rounded-lg w-full p-2.5' name="instagram" value={github} onChange={(e) => onChange(e)} />
+                                <input type="text" placeholder="Github URL" className='border-gray-300 border-2 focus:outline-none rounded-lg w-full p-2.5' name="github" value={github} onChange={(e) => onChange(e)} />
                             </div>
                         </>
                     }

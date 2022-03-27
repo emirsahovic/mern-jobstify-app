@@ -1,4 +1,4 @@
-import { GET_MY_PROFILE_REQUEST, GET_MY_PROFILE_SUCCESS, GET_MY_PROFILE_FAIL } from "../constants/profileConstants";
+import { GET_MY_PROFILE_REQUEST, GET_MY_PROFILE_SUCCESS, GET_MY_PROFILE_FAIL, CREATE_PROFILE_SUCCESS, CREATE_PROFILE_FAIL } from "../constants/profileConstants";
 
 const initialState = {
     profiles: [],
@@ -16,6 +16,10 @@ export const profileReducer = (state = initialState, action) => {
         case GET_MY_PROFILE_SUCCESS:
             return { isLoading: false, isSuccess: true, profile: action.payload }
         case GET_MY_PROFILE_FAIL:
+            return { isLoading: false, isError: true, message: action.payload }
+        case CREATE_PROFILE_SUCCESS:
+            return { isLoading: false, isSuccess: true, profile: action.payload, profiles: [...state.profiles, action.payload] }
+        case CREATE_PROFILE_FAIL:
             return { isLoading: false, isError: true, message: action.payload }
         default:
             return state
