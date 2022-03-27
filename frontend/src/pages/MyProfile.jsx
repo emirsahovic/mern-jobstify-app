@@ -26,10 +26,11 @@ const MyProfile = () => {
             {!profile ? <p>Create profile? </p> : (
                 <div className="h-full">
                     <div className='profile-image py-10' style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 0, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0 0)' }}>
-                        <div className="flex flex-wrap justify-center items-center space-x-10">
+                        <div className="flex flex-wrap justify-center items-center space-x-12" style={{ marginRight: '9%' }}>
                             <div className="text-3xl font-bold text-center text-white" style={{ letterSpacing: '5px' }}>
-                                {profile.user ? profile.user.name.split(' ')[0] : null} <br />
-                                {profile.user ? profile.user.name.split(' ')[1] : null}
+                                {profile.user && profile.user.name && profile.user.name.split(' ')[0]} {' '}
+                                {profile.user && profile.user.name && profile.user.name.split(' ')[1]} <br />
+                                <span className="text-lg text-green-400 font-bold" style={{ letterSpacing: '0px' }}>{profile.position}</span>
                             </div>
                             <img src={avatar} className='w-80 h-56 xs:mt-2 md:mt-0' style={{ borderRadius: '50%' }} alt="Profile" />
                             <div>
@@ -68,8 +69,12 @@ const MyProfile = () => {
                                 <AiFillInfoCircle className="text-2xl text-green-400 hover:scale-110" />
                             </p>
                         </div>
-                        <h3 className="text-3xl pb-3 font-bold text-center pt-12">Experience & Education</h3>
-                        <div className="bg-green-500 w-32 h-1 mx-auto block mb-6"></div>
+                        {(profile.experience && profile.experience.length > 0) || (profile.education && profile.education.length > 0) ? (
+                            <>
+                                <h3 className="text-3xl pb-3 font-bold text-center pt-12">Experience & Education</h3>
+                                <div className="bg-green-500 w-32 h-1 mx-auto block mb-6"></div>
+                            </>
+                        ) : null}
                         <div className="flex flex-wrap justify-center md:space-x-7">
                             <div className="flex flex-col space-y-4 items-start flex-wrap pt-8 pb-6" style={{ width: '40rem' }}>
                                 {profile.experience && profile.experience.map(exp => (
