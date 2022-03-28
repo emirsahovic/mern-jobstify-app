@@ -18,7 +18,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/my-profile' element={user ? <MyProfile /> : <Navigate to='/login' />} />
-        <Route path='/create-profile' element={<CreateProfile />} />
+        <Route path='/create-profile' element={user ? <CreateProfile /> : <Navigate to='/login' />} />
       </Routes>
     </Router>
   );
