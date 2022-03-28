@@ -8,7 +8,7 @@ const CreateProfile = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { isSuccess } = useSelector(state => state.profile);
+    const { isError } = useSelector(state => state.profile);
 
     const [formData, setFormData] = useState({
         position: '',
@@ -44,10 +44,10 @@ const CreateProfile = () => {
         dispatch(createProfile(profileData));
 
         setTimeout(() => {
-            if (isSuccess) {
+            if (!isError) {
                 navigate('/my-profile');
             }
-        }, 1000)
+        }, 700)
     }
 
     return (
