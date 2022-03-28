@@ -10,6 +10,7 @@ import avatar from "../assets/avatar.png";
 import Spinner from "../components/Spinner";
 import ProfileExperience from "../components/ProfileExperience";
 import ProfileEducation from "../components/ProfileEducation";
+import { MdModeEdit } from "react-icons/md";
 
 const MyProfile = () => {
     const dispatch = useDispatch();
@@ -32,8 +33,13 @@ const MyProfile = () => {
                 </div>
             ) : (
                 <div className="h-full">
-                    <div className='profile-image py-10' style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 0, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0 0)' }}>
-                        <div className="flex flex-wrap justify-center items-center space-x-24" style={{ marginRight: '9%' }}>
+                    <div className='profile-image py-10 relative' style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 0, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0 0)' }}>
+                        <Link to='/edit-profile'>
+                            <button className="xs:mb-4 xs:relative xs:block xs:m-auto md:absolute md:top-4 md:right-4 flex items-center text-white font-bold rounded-md bg-green-500 px-2 py-1 hover:opacity-75 cursor-pointer transition duration-200">
+                                <h3 className="text-md mr-2">Edit Profile <MdModeEdit className="text-2xl inline" /></h3>
+                            </button>
+                        </Link>
+                        <div className="flex flex-wrap justify-center items-center space-x-24" style={{ marginRight: '7%' }}>
                             <div className="text-3xl font-bold text-center text-white" style={{ letterSpacing: '3px' }}>
                                 {profile.user && profile.user.name && profile.user.name.split(' ')[0]} {' '}
                                 {profile.user && profile.user.name && profile.user.name.split(' ')[1]} <br />
@@ -52,7 +58,7 @@ const MyProfile = () => {
                                 )) : null}
                             </div>
                         </div>
-                        <div className="flex items-center justify-center space-x-4 pt-5" style={{ marginRight: '2%' }}>
+                        <div className="flex items-center justify-center space-x-4 pt-5" style={{ marginRight: '1.4%' }}>
                             {profile.website &&
                                 <a href={profile.website} target="_blank" rel="noreferrer" className="text-white hover:scale-150 hover:text-green-500 transition duration-200">
                                     <CgWebsite className="text-3xl" />
