@@ -1,9 +1,11 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getMyProfile } from "../actions/profileActions";
 import { AiFillInfoCircle, AiFillGithub } from 'react-icons/ai';
 import { BsFillCheckSquareFill, BsLinkedin } from 'react-icons/bs';
 import { FaFacebook } from 'react-icons/fa';
+import { CgWebsite } from 'react-icons/cg';
 import avatar from "../assets/avatar.png";
 import Spinner from "../components/Spinner";
 import ProfileExperience from "../components/ProfileExperience";
@@ -23,11 +25,16 @@ const MyProfile = () => {
 
     return (
         <div>
-            {!profile ? <p>Create profile? </p> : (
+            {!profile ? (
+                <div className="container mx-auto mt-14 lg:max-w-5xl">
+                    <h2 className="xs:text-lg md:text-2xl mb-6">You have not created a profile yet? Companies are waiting for you!</h2>
+                    <Link to='/create-profile' className="py-2 px-4 bg-green-500 text-white font-bold hover:opacity-80 transition duration-200">Create profile</Link>
+                </div>
+            ) : (
                 <div className="h-full">
                     <div className='profile-image py-10' style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 0, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0 0)' }}>
-                        <div className="flex flex-wrap justify-center items-center space-x-12" style={{ marginRight: '9%' }}>
-                            <div className="text-3xl font-bold text-center text-white" style={{ letterSpacing: '5px' }}>
+                        <div className="flex flex-wrap justify-center items-center space-x-24" style={{ marginRight: '9%' }}>
+                            <div className="text-3xl font-bold text-center text-white" style={{ letterSpacing: '3px' }}>
                                 {profile.user && profile.user.name && profile.user.name.split(' ')[0]} {' '}
                                 {profile.user && profile.user.name && profile.user.name.split(' ')[1]} <br />
                                 <span className="text-lg text-green-400 font-bold" style={{ letterSpacing: '0px' }}>{profile.position}</span>
@@ -45,7 +52,11 @@ const MyProfile = () => {
                                 )) : null}
                             </div>
                         </div>
-                        <div className="flex items-center justify-center space-x-4 pt-4">
+                        <div className="flex items-center justify-center space-x-4 pt-5" style={{ marginRight: '2%' }}>
+                            {profile.website &&
+                                <a href={profile.website} target="_blank" rel="noreferrer" className="text-white hover:scale-150 hover:text-green-500 transition duration-200">
+                                    <CgWebsite className="text-3xl" />
+                                </a>}
                             {profile.social && profile.social.github &&
                                 <a href={profile.social.github} target="_blank" rel="noreferrer" className="text-white hover:scale-150 hover:text-green-500 transition duration-200">
                                     <AiFillGithub className="text-3xl" />
