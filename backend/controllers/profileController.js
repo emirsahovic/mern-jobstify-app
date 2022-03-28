@@ -44,7 +44,7 @@ const createProfile = asyncHandler(async (req, res, next) => {
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (skills) {
-        profileFields.skills = skills.split(',').map(skill => skill.trim());
+        profileFields.skills = Array.isArray(skills) ? skills : skills.split(',').map((skill) => ' ' + skill.trim());
     }
 
     profileFields.social = {};
