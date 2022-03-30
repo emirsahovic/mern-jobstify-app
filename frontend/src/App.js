@@ -7,6 +7,7 @@ import MyProfile from "./pages/MyProfile";
 import Register from "./pages/Register";
 import CreateProfile from "./pages/CreateProfile";
 import EditProfile from "./pages/EditProfile";
+import AddExperience from "./pages/AddExperience";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -21,6 +22,7 @@ function App() {
         <Route path='/my-profile' element={user ? <MyProfile /> : <Navigate to='/login' />} />
         <Route path='/create-profile' element={user ? <CreateProfile /> : <Navigate to='/login' />} />
         <Route path='/edit-profile' element={user ? <EditProfile /> : <Navigate to='/login' />} />
+        <Route path='/add-experience' element={user ? <AddExperience /> : <Navigate to='/login' />} />
       </Routes>
     </Router>
   );
