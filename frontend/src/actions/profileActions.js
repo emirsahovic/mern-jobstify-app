@@ -8,7 +8,12 @@ import {
     ADD_EXPERIENCE_FAIL,
     DELETE_EXPERIENCE_SUCCESS,
     DELETE_EXPERIENCE_FAIL,
-    DELETE_EXPERIENCE_REQUEST
+    DELETE_EXPERIENCE_REQUEST,
+    ADD_EDUCATION_SUCCESS,
+    ADD_EDUCATION_FAIL,
+    DELETE_EDUCATION_REQUEST,
+    DELETE_EDUCATION_SUCCESS,
+    DELETE_EDUCATION_FAIL
 } from "../constants/profileConstants";
 import axios from 'axios';
 
@@ -85,6 +90,7 @@ export const addExperience = (profileData) => async (dispatch, getState) => {
         })
     }
 }
+
 export const deleteExperience = (expId) => async (dispatch, getState) => {
     try {
         dispatch({ type: DELETE_EXPERIENCE_REQUEST })
@@ -110,3 +116,54 @@ export const deleteExperience = (expId) => async (dispatch, getState) => {
         })
     }
 }
+
+export const addEducation = (profileData) => async (dispatch, getState) => {
+    try {
+        const { auth: { user } } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+
+        const res = await axios.put('/api/profile/education', profileData, config);
+
+        dispatch({
+            type: ADD_EDUCATION_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: ADD_EDUCATION_FAIL,
+            payload: (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        })
+    }
+}
+
+export const deleteEducation = (eduId) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: DELETE_EDUCATION_REQUEST })
+
+        const { auth: { user } } = getState();
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`
+            }
+        }
+
+        const res = await axios.delete('/api/profile/education/' + eduId, config);
+
+        dispatch({
+            type: DELETE_EDUCATION_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: DELETE_EDUCATION_FAIL,
+            payload: (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        })
+    }
+}
+

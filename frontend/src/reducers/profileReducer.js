@@ -8,7 +8,12 @@ import {
     ADD_EXPERIENCE_SUCCESS,
     DELETE_EXPERIENCE_SUCCESS,
     DELETE_EXPERIENCE_FAIL,
-    DELETE_EXPERIENCE_REQUEST
+    DELETE_EXPERIENCE_REQUEST,
+    ADD_EDUCATION_SUCCESS,
+    ADD_EDUCATION_FAIL,
+    DELETE_EDUCATION_REQUEST,
+    DELETE_EDUCATION_SUCCESS,
+    DELETE_EDUCATION_FAIL
 } from "../constants/profileConstants";
 
 const initialState = {
@@ -24,10 +29,13 @@ export const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_MY_PROFILE_REQUEST:
         case DELETE_EXPERIENCE_REQUEST:
+        case DELETE_EDUCATION_REQUEST:
             return { isLoading: true }
         case GET_MY_PROFILE_SUCCESS:
         case ADD_EXPERIENCE_SUCCESS:
         case DELETE_EXPERIENCE_SUCCESS:
+        case ADD_EDUCATION_SUCCESS:
+        case DELETE_EDUCATION_SUCCESS:
             return { isLoading: false, isSuccess: true, profile: action.payload }
         case GET_MY_PROFILE_FAIL:
             return { isLoading: false, isError: true, message: action.payload }
@@ -36,6 +44,8 @@ export const profileReducer = (state = initialState, action) => {
         case CREATE_PROFILE_FAIL:
         case ADD_EXPERIENCE_FAIL:
         case DELETE_EXPERIENCE_FAIL:
+        case ADD_EDUCATION_FAIL:
+        case DELETE_EDUCATION_FAIL:
             return { isLoading: false, isError: true, message: action.payload }
         default:
             return state
