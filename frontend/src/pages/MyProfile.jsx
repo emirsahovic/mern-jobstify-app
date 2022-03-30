@@ -35,12 +35,12 @@ const MyProfile = () => {
                 <div className="h-full">
                     <div className='profile-image py-10 relative' style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 0, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0 0)' }}>
                         <Link to='/add-experience'>
-                            <button className="xs:mb-4 xs:relative xs:block xs:m-auto md:absolute md:top-4 md:left-4 flex items-center text-white font-bold rounded-md bg-gray-700 px-2 py-1 hover:opacity-75 cursor-pointer transition duration-200">
+                            <button className="xs:mb-4 xs:relative xs:block xs:m-auto md:absolute md:top-4 md:left-4 flex items-center text-white font-bold rounded-md bg-gray-700 px-3 py-1 hover:opacity-75 cursor-pointer transition duration-200">
                                 <h3 className="text-md mr-2">Add Experience <FaRegBuilding className="text-2xl inline" /></h3>
                             </button>
                         </Link>
                         <Link to='/add-education'>
-                            <button className="xs:mb-4 xs:relative xs:block xs:m-auto md:absolute md:top-16 md:left-4 flex items-center text-white font-bold rounded-md bg-green-800 px-2 py-1 hover:opacity-75 cursor-pointer transition duration-200">
+                            <button className="xs:mb-4 xs:relative xs:block xs:m-auto md:absolute md:top-16 md:left-4 flex items-center text-white font-bold rounded-md bg-green-800 px-4 py-1 hover:opacity-75 cursor-pointer transition duration-200">
                                 <h3 className="text-md mr-2">Add Education <MdOutlineSchool className="text-2xl inline" /></h3>
                             </button>
                         </Link>
@@ -103,16 +103,20 @@ const MyProfile = () => {
                             </>
                         ) : null}
                         <div className="flex flex-wrap justify-center md:space-x-7">
-                            <div className="flex flex-col space-y-4 items-start flex-wrap pt-8 pb-6" style={{ width: '40rem' }}>
-                                {profile.experience && profile.experience.map(exp => (
-                                    <ProfileExperience key={exp._id} exp={exp} profile={profile} />
-                                ))}
-                            </div>
-                            <div className="flex flex-col space-y-4 items-start flex-wrap pt-8 pb-6" style={{ width: '40rem' }}>
-                                {profile.education && profile.education.map(edu => (
-                                    <ProfileEducation key={edu._id} edu={edu} profile={profile} />
-                                ))}
-                            </div>
+                            {profile.experience && profile.experience.length > 0 &&
+                                <div className={`flex flex-col space-y-4 items-start flex-wrap pt-8 pb-6`} style={{ width: `${profile.education && profile.education.length === 0 ? '45rem' : '40rem'}` }}>
+                                    {profile.experience && profile.experience.map(exp => (
+                                        <ProfileExperience key={exp._id} exp={exp} profile={profile} />
+                                    ))}
+                                </div>
+                            }
+                            {profile.education && profile.education.length > 0 &&
+                                <div className={`flex flex-col space-y-4 items-start flex-wrap pt-8 pb-6`} style={{ width: `${profile.experience && profile.experience.length === 0 ? '45rem' : '40rem'}` }}>
+                                    {profile.education && profile.education.map(edu => (
+                                        <ProfileEducation key={edu._id} edu={edu} profile={profile} />
+                                    ))}
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
