@@ -4,13 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { getMyProfile } from "../actions/profileActions";
 import { AiFillInfoCircle, AiFillGithub } from 'react-icons/ai';
 import { BsFillCheckSquareFill, BsLinkedin } from 'react-icons/bs';
-import { FaFacebook } from 'react-icons/fa';
+import { FaFacebook, FaRegBuilding } from 'react-icons/fa';
 import { CgWebsite } from 'react-icons/cg';
+import { MdModeEdit } from 'react-icons/md';
 import avatar from "../assets/avatar.png";
 import Spinner from "../components/Spinner";
 import ProfileExperience from "../components/ProfileExperience";
 import ProfileEducation from "../components/ProfileEducation";
-import { MdModeEdit } from "react-icons/md";
 
 const MyProfile = () => {
     const dispatch = useDispatch();
@@ -34,6 +34,11 @@ const MyProfile = () => {
             ) : (
                 <div className="h-full">
                     <div className='profile-image py-10 relative' style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 0, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0 0)' }}>
+                        <Link to='/add-experience'>
+                            <button className="xs:mb-4 xs:relative xs:block xs:m-auto md:absolute md:top-4 md:left-4 flex items-center text-white font-bold rounded-md bg-gray-700 px-2 py-1 hover:opacity-75 cursor-pointer transition duration-200">
+                                <h3 className="text-md mr-2">Add Experience <FaRegBuilding className="text-2xl inline" /></h3>
+                            </button>
+                        </Link>
                         <Link to='/edit-profile'>
                             <button className="xs:mb-4 xs:relative xs:block xs:m-auto md:absolute md:top-4 md:right-4 flex items-center text-white font-bold rounded-md bg-green-500 px-2 py-1 hover:opacity-75 cursor-pointer transition duration-200">
                                 <h3 className="text-md mr-2">Edit Profile <MdModeEdit className="text-2xl inline" /></h3>
@@ -95,7 +100,7 @@ const MyProfile = () => {
                         <div className="flex flex-wrap justify-center md:space-x-7">
                             <div className="flex flex-col space-y-4 items-start flex-wrap pt-8 pb-6" style={{ width: '40rem' }}>
                                 {profile.experience && profile.experience.map(exp => (
-                                    <ProfileExperience key={exp._id} exp={exp} />
+                                    <ProfileExperience key={exp._id} exp={exp} profile={profile} />
                                 ))}
                             </div>
                             <div className="flex flex-col space-y-4 items-start flex-wrap pt-8 pb-6" style={{ width: '40rem' }}>
