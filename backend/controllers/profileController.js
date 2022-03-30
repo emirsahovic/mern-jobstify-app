@@ -135,7 +135,7 @@ const addExperience = asyncHandler(async (req, res, next) => {
 // @desc Delete profile experience
 // @access Private
 const deleteExperience = asyncHandler(async (req, res, next) => {
-    const profile = await Profile.findOne({ user: req.user.id });
+    const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'email']);
     const removeIndex = profile.experience.map(item => item.id).indexOf(req.params.expId);
     profile.experience.splice(removeIndex, 1);
     await profile.save();
@@ -183,7 +183,7 @@ const addEducation = asyncHandler(async (req, res, next) => {
 // @desc Delete profile education
 // @access Private
 const deleteEducation = asyncHandler(async (req, res, next) => {
-    const profile = await Profile.findOne({ user: req.user.id });
+    const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'email']);
     const removeIndex = profile.education.map(item => item.id).indexOf(req.params.eduId);
     profile.education.splice(removeIndex, 1);
     await profile.save();
