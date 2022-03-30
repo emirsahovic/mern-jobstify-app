@@ -74,7 +74,7 @@ const EditProfile = () => {
     return (
         <div className='h-full'>
             <div className='mx-auto pt-14 xs:max-w-sm md:max-w-3xl lg:max-w-5xl xl:max-w-6xl'>
-                <BackButton url='/my-profile' />
+                <BackButton />
                 <h1 className="text-center text-3xl pb-3">Edit Your Profile</h1>
                 <div className="bg-green-500 w-32 h-1 mx-auto block mb-6"></div>
                 <form className='flex flex-col space-y-4 mt-2' onSubmit={e => onSubmit(e)}>
