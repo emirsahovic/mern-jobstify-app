@@ -25,7 +25,7 @@ const ProfileExperience = ({ exp: { _id, company, from, to, title, description }
             <p className='text-lg'>
                 <strong>Description: </strong> {description}
             </p>
-            {user._id === profile.user._id && <button onClick={() => {
+            {user && user._id === profile.user._id && <button onClick={() => {
                 dispatch(deleteExperience(_id))
             }} className='text-red-400 absolute top-2 right-2'><AiFillCloseSquare className='text-3xl' /></button>}
         </div>

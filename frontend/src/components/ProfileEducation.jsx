@@ -23,7 +23,7 @@ const ProfileEducation = ({ edu: { _id, school, degree, fieldofstudy, to, from }
             <p className='text-lg'>
                 <strong>Field Of Study: </strong> {fieldofstudy}
             </p>
-            {user._id === profile.user._id && <button onClick={() => {
+            {user && user._id === profile.user._id && <button onClick={() => {
                 dispatch(deleteEducation(_id))
             }} className='text-red-400 absolute top-2 right-2'><AiFillCloseSquare className='text-3xl' /></button>}
         </div>
