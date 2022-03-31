@@ -13,7 +13,13 @@ import {
     ADD_EDUCATION_FAIL,
     DELETE_EDUCATION_REQUEST,
     DELETE_EDUCATION_SUCCESS,
-    DELETE_EDUCATION_FAIL
+    DELETE_EDUCATION_FAIL,
+    GET_PROFILES_REQUEST,
+    GET_PROFILES_SUCCESS,
+    GET_PROFILES_FAIL,
+    GET_USERS_PROFILE_REQUEST,
+    GET_USERS_PROFILE_SUCCESS,
+    GET_USERS_PROFILE_FAIL
 } from "../constants/profileConstants";
 import axios from 'axios';
 
@@ -38,6 +44,42 @@ export const getMyProfile = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: GET_MY_PROFILE_FAIL,
+            payload: (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        })
+    }
+}
+
+export const getAllProfiles = () => async (dispatch) => {
+    try {
+        dispatch({ type: GET_PROFILES_REQUEST })
+
+        const res = await axios.get('/api/profile');
+
+        dispatch({
+            type: GET_PROFILES_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: GET_PROFILES_FAIL,
+            payload: (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        })
+    }
+}
+
+export const getUsersProfile = (userId) => async (dispatch) => {
+    try {
+        dispatch({ type: GET_USERS_PROFILE_REQUEST })
+
+        const res = await axios.get('/api/profile/user/' + userId);
+
+        dispatch({
+            type: GET_USERS_PROFILE_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: GET_USERS_PROFILE_FAIL,
             payload: (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         })
     }
