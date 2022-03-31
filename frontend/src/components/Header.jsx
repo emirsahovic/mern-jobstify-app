@@ -23,16 +23,19 @@ const Header = () => {
                 </Link>
                 {user ? (
                     <div className='flex space-x-8'>
-                        <button onClick={handleLogout} className='text-white font-semibold text-lg flex items-center hover:opacity-75 transition duration-100'>
+                        <Link to='/profiles' className='text-white font-semibold text-md flex items-center hover:opacity-75 transition duration-100'>
+                            Developers
+                        </Link>
+                        <button onClick={handleLogout} className='text-white font-semibold text-md flex items-center hover:opacity-75 transition duration-100'>
                             <FaSignInAlt className='mr-2' /> Logout
                         </button>
                     </div>
                 ) : (
                     <div className='flex space-x-8'>
-                        <Link to='/login' className='text-white font-semibold text-lg flex items-center hover:opacity-75 transition duration-100'>
+                        <Link to='/login' className='text-white font-semibold text-md flex items-center hover:opacity-75 transition duration-100'>
                             <FaSignInAlt className='mr-2' /> Login
                         </Link>
-                        <Link to='/register' className='text-white font-semibold text-lg flex items-center hover:opacity-75 transition duration-100'>
+                        <Link to='/register' className='text-white font-semibold text-md flex items-center hover:opacity-75 transition duration-100'>
                             <FaUser className='mr-2' /> Register
                         </Link>
                     </div>
