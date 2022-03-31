@@ -9,6 +9,8 @@ import CreateProfile from "./pages/CreateProfile";
 import EditProfile from "./pages/EditProfile";
 import AddExperience from "./pages/AddExperience";
 import AddEducation from "./pages/AddEducation";
+import Profiles from "./pages/Profiles";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -25,6 +27,8 @@ function App() {
         <Route path='/edit-profile' element={user ? <EditProfile /> : <Navigate to='/login' />} />
         <Route path='/add-experience' element={user ? <AddExperience /> : <Navigate to='/login' />} />
         <Route path='/add-education' element={user ? <AddEducation /> : <Navigate to='/login' />} />
+        <Route path='/profiles' element={<Profiles />} />
+        <Route path='/profile/:userId' element={<UserProfile />} />
       </Routes>
     </Router>
   );
