@@ -67,6 +67,62 @@ export const getAllProfiles = () => async (dispatch) => {
     }
 }
 
+export const getFilteredProfilesByPosition = (value = '') => async (dispatch) => {
+    try {
+        let res;
+        dispatch({ type: GET_PROFILES_REQUEST })
+
+        if (value === 'All Profiles') {
+            res = await axios.get('/api/profile');
+            dispatch({
+                type: GET_PROFILES_SUCCESS,
+                payload: res.data
+            })
+        } else {
+            res = await axios.get(`/api/profile?position=${value}`);
+
+            dispatch({
+                type: GET_PROFILES_SUCCESS,
+                payload: res.data
+            })
+        }
+
+    } catch (error) {
+        dispatch({
+            type: GET_PROFILES_FAIL,
+            payload: (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        })
+    }
+}
+
+export const getFilteredProfilesBySkill = (skill = '') => async (dispatch) => {
+    try {
+        let res;
+        dispatch({ type: GET_PROFILES_REQUEST })
+
+        if (skill === '') {
+            res = await axios.get('/api/profile');
+            dispatch({
+                type: GET_PROFILES_SUCCESS,
+                payload: res.data
+            })
+        } else {
+            res = await axios.get(`/api/profile?skills[in]=${skill}`);
+
+            dispatch({
+                type: GET_PROFILES_SUCCESS,
+                payload: res.data
+            })
+        }
+
+    } catch (error) {
+        dispatch({
+            type: GET_PROFILES_FAIL,
+            payload: (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        })
+    }
+}
+
 export const getUsersProfile = (userId) => async (dispatch) => {
     try {
         dispatch({ type: GET_USERS_PROFILE_REQUEST })
