@@ -19,7 +19,7 @@ const Header = () => {
             <div className="container mx-auto px-20 flex items-center justify-between flex-wrap ">
                 <Link to={`${user ? '/my-profile' : '/'}`} className='flex items-center hover:opacity-75 transition duration-200'>
                     <h2 className="text-white font-bold text-xl mr-2">Jobstify</h2>
-                    <img src={logo} alt="Logo" className='h-16 w-20 py-1' />
+                    <img src={logo} alt="Logo" className='h-12 w-14' style={{ margin: '3px 0 3px' }} />
                 </Link>
                 {user ? (
                     <div className='flex space-x-8'>
