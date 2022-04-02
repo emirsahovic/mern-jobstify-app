@@ -44,7 +44,7 @@ const createProfile = asyncHandler(async (req, res, next) => {
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
     if (skills) {
-        profileFields.skills = Array.isArray(skills) ? skills : skills.split(',').map((skill) => ' ' + skill.trim());
+        profileFields.skills = Array.isArray(skills) ? skills : skills.split(',').map(skill => skill.trim());
     }
 
     profileFields.social = {};
@@ -67,8 +67,27 @@ const createProfile = asyncHandler(async (req, res, next) => {
 // @method  GET /api/profile
 // @access  Public
 const getAllProfiles = asyncHandler(async (req, res, next) => {
-    const profiles = await Profile.find().populate('user', ['name', 'email']);
+    let query;
+    const reqQuery = { ...req.query };
+    const removeFields = ['select', 'sort'];
+    removeFields.forEach(param => delete reqQuery[param]);
+    let queryStr = JSON.stringify(reqQuery);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in|eq)\b/g, match => `$${match}`);
+    query = Profile.find(JSON.parse(queryStr)).populate('user', ['name', 'email']);
 
+    if (req.query.select) {
+        const fields = req.query.select.split(',').join(' ');
+        query = query.select(fields);
+    }
+
+    if (req.query.sort) {
+        const sortBy = req.query.sort.split(',').join(' ');
+        query = query.sort(sortBy);
+    } else {
+        query = query.sort('-createdAt');
+    }
+
+    const profiles = await query;
     res.status(200).json(profiles);
 })
 
