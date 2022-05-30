@@ -67,39 +67,38 @@ const Register = () => {
                     <form onSubmit={formik.handleSubmit}>
                         <div className="mt-4">
                             <div>
-                                <label className="block" htmlFor="Name">Name</label>
-                                <input type="text" placeholder="Name"
+                                <label className="block" htmlFor="Full Name">Full Name</label>
+                                <input type="text"
                                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                                     name="name"
                                     value={formik.values.name}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
-                                {formik.touched.name && formik.errors.name && <p className='mt-1 text-red-600 font-bold'>{formik.errors.name}</p>}
+                                {formik.touched.name && formik.errors.name && <p className='mt-1 text-red-600 text-sm'>{formik.errors.name}</p>}
                             </div>
                             <div className="mt-4">
-                                <label className="block" htmlFor="email">Email</label>
-                                <input type="email" placeholder="Email"
+                                <label className="block" htmlFor="email">Email Address</label>
+                                <input type="email"
                                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                                     name="email"
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
-                                {formik.touched.email && formik.errors.email && <p className='mt-1 text-red-600 font-bold'>{formik.errors.email}</p>}
+                                {formik.touched.email && formik.errors.email && <p className='mt-1 text-red-600 text-sm'>{formik.errors.email}</p>}
                             </div>
                             <div className="mt-4">
                                 <label className="block">Password</label>
                                 <div className='relative'>
                                     <input type={showPassword ? 'text' : 'password'}
-                                        placeholder="Password"
                                         className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                                         name="password"
                                         value={formik.values.password}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
-                                    {formik.touched.password && formik.errors.password && <p className='mt-1 text-red-600 font-bold'>{formik.errors.password}</p>}
+                                    {formik.touched.password && formik.errors.password && <p className='mt-1 text-red-600 text-sm'>{formik.errors.password}</p>}
                                     <GrFormView className='absolute text-3xl bottom-1 right-3 cursor-pointer' onClick={() => setShowPassword(prevState => !prevState)} />
                                 </div>
                             </div>
@@ -107,14 +106,13 @@ const Register = () => {
                                 <label className="block">Confirm Password</label>
                                 <div className='relative'>
                                     <input type={showConfirmPassword ? 'text' : 'password'}
-                                        placeholder="Password"
                                         className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500"
                                         name="confirmPassword"
                                         value={formik.values.confirmPassword}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                     />
-                                    {formik.touched.confirmPassword && formik.errors.confirmPassword && <p className='mt-1 text-red-600 font-bold'>{formik.errors.confirmPassword}</p>}
+                                    {formik.touched.confirmPassword && formik.errors.confirmPassword && <p className='mt-1 text-red-600 text-sm'>{formik.errors.confirmPassword}</p>}
                                     <GrFormView className='absolute text-3xl bottom-1 right-3 cursor-pointer' onClick={() => setShowConfirmPassword(prevState => !prevState)} />
                                 </div>
                             </div>
@@ -123,7 +121,7 @@ const Register = () => {
                                     Create Account
                                 </button>
                             </div>
-                            {isErrorRegister && <p id='hideMe' className='text-white bg-red-500 py-2 text-center font-bold mt-3'>{message}</p>}
+                            {isErrorRegister && <p id='hideMe' className='text-white bg-red-500 py-2 text-center text-sm mt-3'>{message}</p>}
                             <div className="mt-6 text-grey-dark">
                                 <span className="mr-2">Already have an account?</span>
                                 <Link to='/login' className="text-green-600 hover:underline font-bold">

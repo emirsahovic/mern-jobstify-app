@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser } from '../actions/authActions';
+import { loginUser, reset } from '../actions/authActions';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -36,7 +36,9 @@ const Login = () => {
         if (isSuccess) {
             navigate('/my-profile');
         }
-    }, [isSuccess, navigate])
+
+        dispatch(reset());
+    }, [isSuccess, navigate, dispatch])
 
     return (
         <>
@@ -56,26 +58,26 @@ const Login = () => {
                     <form onSubmit={formik.handleSubmit}>
                         <div className="mt-4">
                             <div className="mt-4">
-                                <label className="block" htmlFor="email">Email</label>
-                                <input type="email" placeholder="Email"
+                                <label className="block" htmlFor="email">Email Address</label>
+                                <input type="email"
                                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-600"
                                     name="email"
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
-                                {formik.touched.email && formik.errors.email && <p className='mt-1 text-red-600 font-bold'>{formik.errors.email}</p>}
+                                {formik.touched.email && formik.errors.email && <p className='mt-1 text-red-600 text-sm'>{formik.errors.email}</p>}
                             </div>
                             <div className="mt-4">
                                 <label className="block">Password</label>
-                                <input type="password" placeholder="Password"
+                                <input type="password"
                                     className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-600"
                                     name="password"
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                 />
-                                {formik.touched.password && formik.errors.password && <p className='mt-1 text-red-600 font-bold'>{formik.errors.password}</p>}
+                                {formik.touched.password && formik.errors.password && <p className='mt-1 text-red-600 text-sm'>{formik.errors.password}</p>}
                             </div>
                             <div className="flex">
                                 <button type='submit' className="w-full px-6 py-2 mt-4 text-white bg-green-500 rounded-lg hover:bg-green-700 transition duration-200">
