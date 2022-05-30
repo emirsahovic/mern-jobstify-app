@@ -5,7 +5,8 @@ import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
-    LOGOUT_SUCCESS
+    LOGOUT_SUCCESS,
+    RESET
 } from "../constants/authConstants"
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -23,17 +24,19 @@ export const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case REGISTER_REQUEST:
         case LOGIN_REQUEST:
-            return { isLoading: true }
+            return { ...state, isLoading: true }
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
-            return { isLoading: false, isSuccess: true, user: action.payload }
+            return { ...state, isLoading: false, isSuccess: true, user: action.payload, isError: false }
         case REGISTER_FAIL:
-            return { isLoading: false, isErrorRegister: true, message: action.payload }
+            return { ...state, isLoading: false, isErrorRegister: true, message: action.payload }
         case LOGIN_FAIL:
-            return { isLoading: false, isErrorLogin: true, message: action.payload }
+            return { ...state, isLoading: false, isErrorLogin: true, message: action.payload }
         case LOGOUT_SUCCESS:
             localStorage.removeItem('user')
-            return { user: null }
+            return { ...state, user: null }
+        case RESET:
+            return { ...state, isLoading: false, isSuccess: false, isErrorLogin: false, isErrorRegister: false }
         default:
             return state
     }

@@ -7,7 +7,8 @@ import {
     LOGIN_FAIL,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
-    LOGOUT_FAIL
+    LOGOUT_FAIL,
+    RESET
 } from "../constants/authConstants";
 import axios from 'axios';
 
@@ -57,4 +58,8 @@ export const loginUser = (userData) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
     dispatch({ type: LOGOUT_SUCCESS });
+}
+
+export const reset = () => async (dispatch) => {
+    dispatch({ type: RESET });
 }
